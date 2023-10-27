@@ -12,8 +12,8 @@ using Sinca_Teodora_Lab2.Data;
 namespace Sinca_Teodora_Lab2.Migrations
 {
     [DbContext(typeof(Sinca_Teodora_Lab2Context))]
-    [Migration("20231022192534_Publisher")]
-    partial class Publisher
+    [Migration("20231023151331_NewDB")]
+    partial class NewDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,6 +24,25 @@ namespace Sinca_Teodora_Lab2.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("Sinca_Teodora_Lab2.Models.Author", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Author");
+                });
+
             modelBuilder.Entity("Sinca_Teodora_Lab2.Models.Book", b =>
                 {
                     b.Property<int>("ID")
@@ -32,12 +51,11 @@ namespace Sinca_Teodora_Lab2.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<string>("Author")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("AuthorID")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(6,2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("PublisherID")
                         .HasColumnType("int");
@@ -50,6 +68,8 @@ namespace Sinca_Teodora_Lab2.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("AuthorID");
 
                     b.HasIndex("PublisherID");
 
@@ -75,11 +95,22 @@ namespace Sinca_Teodora_Lab2.Migrations
 
             modelBuilder.Entity("Sinca_Teodora_Lab2.Models.Book", b =>
                 {
+                    b.HasOne("Sinca_Teodora_Lab2.Models.Author", "Author")
+                        .WithMany("Books")
+                        .HasForeignKey("AuthorID");
+
                     b.HasOne("Sinca_Teodora_Lab2.Models.Publisher", "Publisher")
                         .WithMany("Books")
                         .HasForeignKey("PublisherID");
 
+                    b.Navigation("Author");
+
                     b.Navigation("Publisher");
+                });
+
+            modelBuilder.Entity("Sinca_Teodora_Lab2.Models.Author", b =>
+                {
+                    b.Navigation("Books");
                 });
 
             modelBuilder.Entity("Sinca_Teodora_Lab2.Models.Publisher", b =>

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Sinca_Teodora_Lab2.Data;
 using Sinca_Teodora_Lab2.Models;
 
-namespace Sinca_Teodora_Lab2.Pages.Publishers
+namespace Sinca_Teodora_Lab2.Pages.Categories
 {
     public class CreateModel : PageModel
     {
@@ -25,23 +25,21 @@ namespace Sinca_Teodora_Lab2.Pages.Publishers
         }
 
         [BindProperty]
-        public Publisher Publisher { get; set; } = default!;
+        public Category Category { get; set; } = default!;
         
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Publisher == null || Publisher == null)
+          if (!ModelState.IsValid || _context.Category == null || Category == null)
             {
                 return Page();
             }
 
-            _context.Publisher.Add(Publisher);
+            _context.Category.Add(Category);
             await _context.SaveChangesAsync();
-
 
             return RedirectToPage("./Index");
         }
-
     }
 }
