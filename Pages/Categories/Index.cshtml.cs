@@ -27,7 +27,8 @@ namespace Sinca_Teodora_Lab2.Pages.Categories
         public int BookID { get; set; }
         public async Task OnGetAsync(int? id, int? bookID)
         {
-            CategoryData = new CategoriesIndexData(); CategoryData.Publishers = await _context.Category.Include(i => i.BookCategories).ThenInclude(c => c.Book.Author).OrderBy(i => i.CategoryName).ToListAsync();
+            CategoryData = new CategoriesIndexData();
+            CategoryData.Publishers = await _context.Category.Include(i => i.BookCategories).ThenInclude(c => c.Book.Author).OrderBy(i => i.CategoryName).ToListAsync();
             if (id != null)
             {
                 CategoryID = id.Value;
