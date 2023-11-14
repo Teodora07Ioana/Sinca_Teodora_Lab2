@@ -42,8 +42,7 @@ namespace Sinca_Teodora_Lab2.Pages.Borrowings
             });
 
             /*ViewData["BookID"] = new SelectList(_context.Book, "ID", "ID");*/
-            ViewData["BookID"] = new SelectList(_context.Book, "ID", "Title");
-            Borrowing.Book = borrowing.Book;
+            ViewData["BookID"] = new SelectList(bookList, "ID", "BookFullName");
 
             ViewData["MemberID"] = new SelectList(_context.Set<Member>(), "ID", "FullName");
             /*ViewData["MemberID"] = new SelectList(_context.Set<Member>(), "ID", "ID");*/
